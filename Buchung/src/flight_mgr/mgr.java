@@ -4,8 +4,30 @@ import javax.swing.*;
 
 public class mgr {
 	public static void main(String[] args) {
+		user_pass();
 		departure_select(available_Airports_depature());
 		arival_select(available_Airports_arival());
+	}
+
+	public static String[] user_pass() {
+		JLabel label_login = new JLabel("Username:");
+		JTextField login = new JTextField();
+		 
+		JLabel label_password = new JLabel("Password:");
+		JPasswordField password = new JPasswordField();
+		 
+		Object[] array = { label_login,  login, label_password, password };
+		 
+		int res = JOptionPane.showConfirmDialog(null, array, "Login", 
+		        JOptionPane.OK_CANCEL_OPTION,
+		        JOptionPane.PLAIN_MESSAGE);
+		 
+		if (res == JOptionPane.OK_OPTION) {
+		    String[] userpass = {"username: " + login.getText().trim() , "password: " + new String(password.getPassword())};
+			return userpass;
+		}else {
+			return null;
+		}
 	}
 	
 	public static String departure_select (String[] airports) {
