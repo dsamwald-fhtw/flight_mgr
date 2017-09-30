@@ -13,16 +13,32 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 
+    <?php
+      require_once("php/connection.php");
+      if(isset($_GET['search'])) {
+        $flightnr = trim($_POST['flightnr']);
+
+        $statement = $pdo->prepare("SELECT * FROM flights WHERE flightnr = :flightnr");
+        $result = $statement->execute(array('flightnr' => $flightnr));
+        $flight = $statement->fetch();
+
+        if($flight != false) {
+          header("location: search/?flightnr=".$flightnr);
+        } else  {
+          echo "<script type='text/javascript'>Materialize.toast('Dieser Flug existiert nicht, versuche es erneut!', 10000);</script>";
+        }
+      }
+    ?>
 
     <div class="number_head_bg"></div>
     <div class="number_page">
       <div class="number_head_wrap"></div>
       <div class="number_form_wrap">
-        <form method="post" action="?suchen=1">
+        <form method="post" action="?search=1">
           <h3 class="number_form_head center-align">Fluginformationen</h3>
           <p class="number_form_lead center-align">Flugnummer des Fluges eintragen</p>
           <div class='input-field col s6'>
-            <input class="input-field" id="Nummer" name="Nummer" placeholder="Flugnummer" type="text" />
+            <input class="input-field" id="flightnr" name="flightnr" placeholder="Flugnummer" type="number" maxlength="3" min="000" max="999" />
           </div>
           <br />
           <div class="col s6 center-align">
