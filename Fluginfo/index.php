@@ -25,7 +25,7 @@
         if($flight != false) {
           header("location: search/?flightnr=".$flightnr);
         } else  {
-          echo "<script type='text/javascript'>Materialize.toast('Dieser Flug existiert nicht, versuche es erneut!', 10000);</script>";
+          echo "<script type='text/javascript'>Materialize.toast('This flight does not exist, please try again!', 10000);</script>";
         }
       }
     ?>
@@ -35,14 +35,14 @@
       <div class="number_head_wrap"></div>
       <div class="number_form_wrap">
         <form method="post" action="?search=1">
-          <h3 class="number_form_head center-align">Fluginformationen</h3>
-          <p class="number_form_lead center-align">Flugnummer des Fluges eintragen</p>
+          <h3 class="number_form_head center-align">Flight Manager</h3>
+          <p class="number_form_lead center-align">Enter the Flightnumber</p>
           <div class='input-field col s6'>
-            <input class="input-field" id="flightnr" name="flightnr" placeholder="Flugnummer" type="number" maxlength="3" min="000" max="999" />
+            <input class="input-field" id="flightnr" name="flightnr" placeholder="Flightnumber" type="number" maxlength="3" min="000" max="999" value="<?php if(isset($_GET['search'])) { echo($flightnr); }?>" />
           </div>
           <br />
           <div class="col s6 center-align">
-            <button type='submit' class='btn waves-effect button' style="width: auto;"><i class="material-icons left">search</i> Suchen</button>
+            <button type='submit' class='btn waves-effect button' style="width: auto;"><i class="material-icons left">search</i> Search</button>
           </div>
         </form>
       </div>
