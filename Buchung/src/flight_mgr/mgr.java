@@ -5,21 +5,22 @@ import javax.swing.*;
 public class mgr {
 	
 	public static void main(String[] args) {		
-		String[] dbms_login = user_pass();
-		String departure_country = departure_country(available_Countrys());
-		String arival_country = arival_country(available_Countrys());
-		String depature_airport = departure_airport_select(available_Airports_depature(departure_country, arival_country));
-		String arival_airport = arival_airport_select(available_Airports_arival(depature_airport));
+		String[] dbms_login = select_user_pass();
+		String departure_country = select_departure_country(get_available_Countrys());
+		String arival_country = select_arival_country(get_available_Countrys());
+		String depature_airport = select_departure_airport(get_available_Airports_depature(departure_country, arival_country));
+		String arival_airport = select_arival_airport(get_available_Airports_arival(depature_airport, arival_country));
+		String flightnr = select_flight(get_available_Flights(depature_airport, arival_airport));
 		
 	}
-	
+
 	/**
 	 * @author dsamwald
 	 * @version 2017-09-30
 	 * 
 	 * Fragt das passwort und den usernamen vom nutzer ab
 	 */
-	public static String[] user_pass() {
+	public static String[] select_user_pass() {
 		
 		JLabel label_login = new JLabel("Username:");
 		JTextField login = new JTextField();
@@ -47,7 +48,7 @@ public class mgr {
 	 * 
 	 * Abflugland wird abgefragt
 	 */
-	public static String departure_country(String[] countrys) {
+	public static String select_departure_country(String[] countrys) {
 		String input = (String) JOptionPane.showInputDialog(null, "Bitte wählen Sie das Abflugland aus.",
 		        "Abflugland", JOptionPane.QUESTION_MESSAGE, null, countrys, countrys[1]);
 			return input;
@@ -59,7 +60,7 @@ public class mgr {
 	 * 
 	 * Zielland wird abgefragt
 	 */
-	public static String arival_country(String[] countrys) {
+	public static String select_arival_country(String[] countrys) {
 		String input = (String) JOptionPane.showInputDialog(null, "Bitte wählen Sie das Zielland aus.",
 		        "Zielland", JOptionPane.QUESTION_MESSAGE, null, countrys, countrys[1]);
 			return input;
@@ -71,7 +72,7 @@ public class mgr {
 	 *
 	 * Methode zur auswahl des gewünschten Abflughafens
 	 */
-	public static String departure_airport_select (String[] airports) {
+	public static String select_departure_airport (String[] airports) {
 	    String input = (String) JOptionPane.showInputDialog(null, "Bitte wählen Sie den Abflughafen aus.",
 	        "Abflughafen", JOptionPane.QUESTION_MESSAGE, null, airports, airports[1]);
 		return input;
@@ -83,9 +84,21 @@ public class mgr {
 	 *
 	 * Methode zur auswahl des gewünschten Zielflughafens
 	 */
-	public static String arival_airport_select (String[] airports) {
+	public static String select_arival_airport (String[] airports) {
 	    String input = (String) JOptionPane.showInputDialog(null, "Bitte wählen Sie den Zielflughafen aus.",
 	        "Zielflughafen", JOptionPane.QUESTION_MESSAGE, null, airports, airports[1]);
+		return input;
+	}
+	
+	/**
+	 * @author dsamwald
+	 * @version 01.10.2017
+	 * 
+	 * Methode liefert alle 
+	 */
+	private static String select_flight(String[] flights) {
+		String input = (String) JOptionPane.showInputDialog(null, "Bitte wählen Sie den gewünschten Flug aus.",
+		        "Flug", JOptionPane.QUESTION_MESSAGE, null, flights, flights[1]);
 		return input;
 	}
 	
@@ -95,7 +108,7 @@ public class mgr {
 	 * 
 	 * Ruft alle verfügbaren Länder aus der DB ab
 	 */
-	public static String[] available_Countrys() {
+	public static String[] get_available_Countrys() {
 		String[] country = {"Austria", "USA", "Germany", "Netherlands", "Australia"};
 		return country;
 	}
@@ -106,7 +119,7 @@ public class mgr {
 	 *
 	 * String Array soll mit den möglichen flughäfen aus der DB gefüllt werden
 	 */
-	private static String[] available_Airports_depature(String dep_country, String ariv_country) {
+	private static String[] get_available_Airports_depature(String dep_country, String ariv_country) {
 		String[] airports = {"VIE", "JFK", "ORD", "DEN", "IAD"};
 		return airports;
 	}
@@ -117,7 +130,7 @@ public class mgr {
 	 *
 	 * String Array soll mit den möglichen flughäfen gefüllt werden die zum abflug passen
 	 */
-	private static String[] available_Airports_arival(String dep_airport) {
+	private static String[] get_available_Airports_arival(String dep_airport, String ariv_country) {
 		String[] airports = {"VIE", "JFK", "ORD", "DEN", "IAD"};
 		return airports;
 	}
@@ -128,11 +141,9 @@ public class mgr {
 	 *
 	 * String Array soll mit den verfügbaren Flügen zwischen Abflughafen und Zielflughafen gefüllt werden
 	 */
-	private static String[] available_Flights() {
+	private static String[] get_available_Flights(String dep_airport, String ariv_airport) {
 		String[] flights = {"1234", "4321", "ABCD", "DCBA", "0987"};
 		return flights;
 	}
-	
-	
 	
 }
