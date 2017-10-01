@@ -50,7 +50,7 @@
                </tr>
                <tr>
                  <td>Destination Time</td>
-                 <td></td>
+                 <td> </td>
                </tr>
              </tbody>
            </table>

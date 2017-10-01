@@ -26,6 +26,7 @@
           header("location: search/?flightnr=".$flightnr);
         } else  {
           echo "<script type='text/javascript'>Materialize.toast('This flight does not exist, please try again!', 10000);</script>";
+          
         }
       }
     ?>
