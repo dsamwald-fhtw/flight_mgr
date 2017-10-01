@@ -13,6 +13,39 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 
+    <?php
+      require_once("../php/connection.php");
+      if(isset($_GET['airline']) && isset($_GET['flight'])) {
+        $text1 = $_GET['airline'];
+        $text2 = $_GET['flight'];
+
+        $statement = $pdo->prepare("SELECT * FROM flights WHERE flightnr = :flightnr AND airline = :airline");
+        $result = $statement->execute(array('flightnr' => $text2, 'airline' => $text1));
+        $flight = $statement->fetch();
+
+        if($flight) {
+          $statement = $pdo->prepare("SELECT * FROM airlines WHERE id = :id");
+          $result = $statement->execute(array('id' => $text1));
+          $airline = $statement->fetch();
+
+          $statement = $pdo->prepare("SELECT * FROM planes WHERE id = :id");
+          $result = $statement->execute(array('id' => $flight['planetype']));
+          $plane = $statement->fetch();
+
+          $statement = $pdo->prepare("SELECT id,firstname,lastname,rownr,seatposition FROM passengers WHERE airline = :airline AND flightnr = :flightnr ORDER BY id");
+          $result = $statement->execute(array("airline" => $text1, "flightnr" => $text2));
+
+          while ($passenger = $statement->fetch()) {
+	           $passengers[] = $passenger;
+	         }
+        } else {
+          header("location: ../?error=1");
+        }
+      } else {
+        header("location: ../?error=1");
+      }
+    ?>
+
     <div class="finish_head_bg"></div>
     <div class="finish_page">
       <div class="finish_head_wrap"></div>
@@ -29,28 +62,28 @@
              </thead>
              <tbody>
                <tr>
-                 <td>Flightnumber</td>
-                 <td></td>
+                 <td>Flightnumber:</td>
+                 <td>#<?php echo($flight['flightnr']); ?></td>
                </tr>
                <tr>
-                 <td>Airline</td>
-                 <td></td>
+                 <td>Airline:</td>
+                 <td><?php echo($airline['name']); ?></td>
                </tr>
                <tr>
-                 <td>Departure Airport</td>
-                 <td></td>
+                 <td>Departure Airport:</td>
+                 <td><?php echo($flight['departure_airport']); ?></td>
                </tr>
                <tr>
-                 <td>Departure Time</td>
-                 <td></td>
+                 <td>Departure Time:</td>
+                 <td><?php echo($flight['departure_time']); ?></td>
                </tr>
                <tr>
-                 <td>Destination Airport</td>
-                 <td></td>
+                 <td>Destination Airport:</td>
+                 <td><?php echo($flight['destination_airport']); ?></td>
                </tr>
                <tr>
-                 <td>Destination Time</td>
-                 <td> </td>
+                 <td>Destination Time:</td>
+                 <td><?php echo($flight['destination_time']); ?></td>
                </tr>
              </tbody>
            </table>
@@ -60,29 +93,29 @@
              <thead>
                <tr>
                  <th>Airplane Information</th>
-                 <th>123</th>
+                 <th></th>
                </tr>
              </thead>
              <tbody>
                <tr>
-                 <td>Planetype</td>
-                 <td>78</td>
+                 <td>Planetype:</td>
+                 <td><?php echo($plane['type']); ?></td>
                </tr>
                <tr>
-                 <td>Max. Speed</td>
-                 <td>111</td>
+                 <td>Max. Speed:</td>
+                 <td><?php if($plane['maxspeed'] != null) {  echo($plane['maxspeed']." km/h"); } else { echo "Unknown";}?></td>
                </tr>
                <tr>
-                 <td>Initial Service</td>
-                 <td>1111</td>
+                 <td>Initial Service:</td>
+                 <td><?php echo($plane['initialserviceyear']); ?></td>
                </tr>
                <tr>
-                 <td>Max. Seats</td>
-                 <td>12</td>
+                 <td>Max. Seats:</td>
+                 <td><?php echo($plane['maxseats']); ?></td>
                </tr>
                <tr>
-                 <td>Seats per Row</td>
-                 <td>4</td>
+                 <td>Seats per Row:</td>
+                 <td><?php echo($plane['seatsperrow']); ?></td>
                </tr>
              </tbody>
            </table>
@@ -90,7 +123,6 @@
         </div>
         <br />
         <div>
-          <h3 class="finish_form_head">Passengers</h3>
           <table class="highlight centered">
             <thead>
               <tr>
@@ -101,24 +133,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Alvin</td>
-                <td>Eclair</td>
-                <td>1</td>
-                <td><button class="btn btn-small waves-effect waves-light red darken-3" type="submit" name="action">Kick!</button></td>
-              </tr>
-              <tr>
-                <td>Alan</td>
-                <td>Jellybean</td>
-                <td>2</td>
-                <td><button class="btn btn-small waves-effect waves-light red darken-3" type="submit" name="action">Kick!</button></td>
-              </tr>
-              <tr>
-                <td>Jonathan</td>
-                <td>Lollipop</td>
-                <td>3</td>
-                <td><button class="btn btn-small waves-effect waves-light red darken-3" type="submit" name="action">Kick!</button></td>
-              </tr>
+              <?php
+                for($i = 0; $i < count($passengers); $i++) {
+                  echo "<tr>
+                    <td>".$passengers[$i][1]."</td>
+                    <td>".$passengers[$i][2]."</td>
+                    <td>".$passengers[$i][3]."".$passengers[$i][4]."</td>
+                    <td><a href='kick/?id=".$passengers[$i][0]."&airline=".$text1."&flight=".$text2."' class='btn btn-small waves-effect waves-light red darken-3' type='submit' name='action'>Kick!</a></td>
+                  </tr>";
+                }
+              ?>
             </tbody>
           </table>
         </div>
