@@ -60,29 +60,29 @@
              <thead>
                <tr>
                  <th>Airplane Information</th>
-                 <th></th>
+                 <th>123</th>
                </tr>
              </thead>
              <tbody>
                <tr>
                  <td>Planetype</td>
-                 <td></td>
+                 <td>78</td>
                </tr>
                <tr>
                  <td>Max. Speed</td>
-                 <td></td>
+                 <td>111</td>
                </tr>
                <tr>
                  <td>Initial Service</td>
-                 <td></td>
+                 <td>1111</td>
                </tr>
                <tr>
                  <td>Max. Seats</td>
-                 <td></td>
+                 <td>12</td>
                </tr>
                <tr>
                  <td>Seats per Row</td>
-                 <td></td>
+                 <td>4</td>
                </tr>
              </tbody>
            </table>
