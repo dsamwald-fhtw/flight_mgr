@@ -16,17 +16,21 @@
     <?php
       require_once("php/connection.php");
       if(isset($_GET['search'])) {
-        $flightnr = trim($_POST['flightnr']);
+        $text1 = strtoupper(trim($_POST['text1']));
+        $text2 = trim($_POST['text2']);
 
-        $statement = $pdo->prepare("SELECT * FROM flights WHERE flightnr = :flightnr");
-        $result = $statement->execute(array('flightnr' => $flightnr));
+        $statement = $pdo->prepare("SELECT * FROM flights WHERE flightnr = :flightnr AND airline = :airline");
+        $result = $statement->execute(array('flightnr' => $text2, 'airline' => $text1));
         $flight = $statement->fetch();
 
-        if($flight != false) {
-          header("location: search/?flightnr=".$flightnr);
-        } else  {
-          echo "<script type='text/javascript'>Materialize.toast('Dieser Flug existiert nicht, versuche es erneut!', 10000);</script>";
+        if($flight) {
+          header("location: search/?airline=".$text1."&flight=".$text2);
+        } else {
+          echo "<script type='text/javascript'>Materialize.toast('This Flight does not exist, try again!', 10000);</script>";
         }
+      }
+      if(isset($_GET['error'])) {
+        echo "<script type='text/javascript'>Materialize.toast('This Flight does not exist, try again!', 10000);</script>";
       }
     ?>
 
@@ -35,14 +39,24 @@
       <div class="number_head_wrap"></div>
       <div class="number_form_wrap">
         <form method="post" action="?search=1">
-          <h3 class="number_form_head center-align">Fluginformationen</h3>
-          <p class="number_form_lead center-align">Flugnummer des Fluges eintragen</p>
+          <h3 class="number_form_head center-align">Flight Manager</h3>
+          <p class="number_form_lead center-align">Enter Airline and Flightnumber<br>Example: AA-000</p>
           <div class='input-field col s6'>
-            <input class="input-field" id="flightnr" name="flightnr" placeholder="Flugnummer" type="number" maxlength="3" min="000" max="999" />
+            <div class="row">
+              <div class="col s4">
+                <input class="input-field" id="text1" name="text1" style="text-transform:uppercase" type="text" placeholder="AA" maxlength="2" value="<?php if(isset($_GET['search'])) { echo($text1); }?>" required />
+              </div>
+              <div class="col s1" style="padding-top: 10px;">
+                <b>-</b>
+              </div>
+              <div class="col s7">
+                <input class="input-field" id="text2" name="text2" type="text" maxlength="3" placeholder="000" min="000" max="999" value="<?php if(isset($_GET['search'])) { echo($text); }?>" required />
+              </div>
+            </div>
           </div>
           <br />
           <div class="col s6 center-align">
-            <button type='submit' class='btn waves-effect button' style="width: auto;"><i class="material-icons left">search</i> Suchen</button>
+            <button type='submit' class='btn waves-effect button' style="width: auto;"><i class="material-icons left">search</i> Search</button>
           </div>
         </form>
       </div>
