@@ -103,6 +103,10 @@
                    <td>Destination Time:</td>
                    <td><?php echo(date("d.m.Y h:i", strtotime($flight['destination_time']))); ?></td>
                  </tr>
+                 <tr>
+                   <td>Free Seats</td>
+                   <td><?php echo($plane['maxseats'] - count($passengers)); ?></td>
+                 </tr>
                </tbody>
              </table>
             </div>
@@ -116,12 +120,20 @@
                </thead>
                <tbody>
                  <tr>
-                   <td>Planetype:</td>
+                   <td>Manufacturer:</td>
+                   <td><?php echo($plane['manufacturer']); ?></td>
+                 </tr>
+                 <tr>
+                   <td>Type:</td>
                    <td><?php echo($plane['type']); ?></td>
                  </tr>
                  <tr>
                    <td>Max. Speed:</td>
-                   <td><?php if($plane['maxspeed'] != null) {  echo($plane['maxspeed']." km/h"); } else { echo "Unknown";}?></td>
+                   <td><?php if($plane['maxspeed'] != null) {  echo($plane['maxspeed']." km"); } else { echo "Unknown";}?></td>
+                 </tr>
+                 <tr>
+                   <td>Span:</td>
+                   <td><?php echo($plane['span']."m"); ?></td>
                  </tr>
                  <tr>
                    <td>Initial Service:</td>
@@ -134,10 +146,6 @@
                  <tr>
                    <td>Seats per Row:</td>
                    <td><?php echo($plane['seatsperrow']); ?></td>
-                 </tr>
-                 <tr>
-                   <td>Free Seats</td>
-                   <td><?php echo($plane['maxseats'] - count($passengers)); ?></td>
                  </tr>
                </tbody>
              </table>
@@ -175,7 +183,7 @@
     </div>
 
     <div class="fixed-action-btn scale-transition tooltipped" data-position="top" data-delay="50" data-tooltip="Book new Seat" style="margin-bottom: 15px">
-      <a style="background-color: #52509e !important;" class="btn btn-large waves-effect waves-light">
+      <a href="<?php echo('../plane/?airline='.$text1.'&flight='.$text2); ?>" style="background-color: #52509e !important;" class="btn btn-large waves-effect waves-light">
         <i class="material-icons left">event_seat</i> Book new Seat
       </a>
     </div>
