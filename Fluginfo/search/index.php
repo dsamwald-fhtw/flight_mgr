@@ -16,6 +16,14 @@
     <?php
       require_once("../php/connection.php");
       if(isset($_GET['airline']) && isset($_GET['flight'])) {
+
+        if(isset($_GET['error'])) {
+          echo "<script type='text/javascript'>Materialize.toast('Passenger does not exist!', 10000);</script>";
+        }
+        if(isset($_GET['success'])) {
+          echo "<script type='text/javascript'>Materialize.toast('Passenger successfully kicked from flight!', 10000);</script>";
+
+        }
         $text1 = $_GET['airline'];
         $text2 = $_GET['flight'];
 
@@ -63,7 +71,7 @@
              <tbody>
                <tr>
                  <td>Flightnumber:</td>
-                 <td>#<?php echo($flight['flightnr']); ?></td>
+                 <td><?php echo($flight['flightnr']); ?></td>
                </tr>
                <tr>
                  <td>Airline:</td>
@@ -139,7 +147,7 @@
                     <td>".$passengers[$i][1]."</td>
                     <td>".$passengers[$i][2]."</td>
                     <td>".$passengers[$i][3]."".$passengers[$i][4]."</td>
-                    <td><a href='kick/?id=".$passengers[$i][0]."&airline=".$text1."&flight=".$text2."' class='btn btn-small waves-effect waves-light red darken-3' type='submit' name='action'>Kick!</a></td>
+                    <td><a href='../kick/?id=".$passengers[$i][0]."&airline=".$text1."&flight=".$text2."' class='btn btn-small waves-effect waves-light red darken-3' type='submit' name='action'>Kick!</a></td>
                   </tr>";
                 }
               ?>
