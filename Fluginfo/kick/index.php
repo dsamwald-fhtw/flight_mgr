@@ -22,6 +22,6 @@ require_once("../php/connection.php");
       header("location: ../search/?airline=".$text2."&flight=".$text3."&error=1");
     }
   } else {
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    echo("<script>window.history.back();</script>");
   }
 ?>

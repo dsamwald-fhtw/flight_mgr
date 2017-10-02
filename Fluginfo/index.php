@@ -50,13 +50,13 @@
                 <b>-</b>
               </div>
               <div class="col s7">
-                <input class="input-field" id="text2" name="text2" type="text" maxlength="3" placeholder="000" min="000" max="999" value="<?php if(isset($_GET['search'])) { echo($text); }?>" required />
+                <input class="input-field" id="text2" name="text2" type="text" maxlength="3" placeholder="000" min="000" max="999" value="<?php if(isset($_GET['search'])) { echo($text2); }?>" required />
               </div>
             </div>
           </div>
           <br />
           <div class="col s6 center-align">
-            <button type='submit' class='btn waves-effect button' style="width: auto;"><i class="material-icons left">search</i> Search</button>
+            <button type='submit' style="background-color: #52509e !important;" class='btn waves-effect' style="width: auto;"><i class="material-icons left">search</i> Search</button>
           </div>
         </form>
       </div>
