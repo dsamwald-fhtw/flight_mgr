@@ -70,6 +70,8 @@ public class view extends JFrame {
 		this.m = m;
 		this.c = c;
 
+		this.initialize_countrys();
+
         /**
          * Initialisation of Placeholder-containers
          */
@@ -83,15 +85,15 @@ public class view extends JFrame {
         this.select_country = new JPanel();
         // GridLayout chosen for select_flight
 		this.select_country.setLayout( new GridLayout(3,3,10,0) );
-		// Labels for Country Selection
+		// Labels for country selection
 		this.country_label = new JLabel("Bitte wählen Sie ihr gewünschtes Abflug- und Zielland aus.");
         this.country_dep_label = new JLabel("Abflugland");
         this.country_ariv_label = new JLabel("Zielland");
-        // Dropdown for Country Selection
+        // Dropdown for country selection
         this.select_dep_country = new JComboBox<>(this.countrys);
         this.select_ariv_country = new JComboBox<>(this.countrys);
         this.submit_country = new JButton("Submit");
-
+        // Components added to JPanel for country selection
         this.select_country.add(this.c1);
         this.select_country.add(this.country_label);
         this.select_country.add(this.c2);
@@ -101,6 +103,8 @@ public class view extends JFrame {
         this.select_country.add(this.select_dep_country);
         this.select_country.add(this.select_ariv_country);
         this.select_country.add(this.submit_country);
+        // ActionListener added to submit button
+        this.submit_country.addActionListener(this.c);
 
         /**
          * JPanel for airport selection
@@ -108,15 +112,15 @@ public class view extends JFrame {
         this.select_airport = new JPanel();
         // GridLayout chosen for select_flight
         this.select_airport.setLayout( new GridLayout(3,3,10,0) );
-        // Labels for Airport Selection
+        // Labels for airport selection
 		this.airport_label = new JLabel("Bitte wählen Sie ihren gewünschten Abflug- und Zielflughafen aus.");
         this.airport_dep_label = new JLabel("Abflughafen");
         this.airport_ariv_label = new JLabel("Zielflughafen");
-        // Dropdown for Airport Selection
+        // Dropdown for airport selection
         this.select_dep_airport = new JComboBox<>(this.airports);
         this.select_ariv_airport = new JComboBox<>(this.airports);
         this.submit_airport = new JButton("Submit");
-
+        // Components added to JPanel for airport selection
         this.select_airport.add(this.c1);
         this.select_airport.add(this.airport_label);
         this.select_airport.add(this.c2);
@@ -126,6 +130,8 @@ public class view extends JFrame {
         this.select_airport.add(this.select_dep_airport);
         this.select_airport.add(this.select_ariv_airport);
         this.select_airport.add(this.submit_airport);
+        // ActionLister added to submit button
+        this.submit_airport.addActionListener(this.c);
 
         /**
          * JPanel for flight selection
@@ -133,43 +139,120 @@ public class view extends JFrame {
         this.select_flight = new JPanel();
         // GridLayout chosen for select_flight
         this.select_flight.setLayout( new GridLayout(2,2,10,0) );
-        // Labels for Flight Selection
+        // Labels for flight selection
 		this.flight_label = new JLabel("Bitte wählen Sie ihren gewünschten Flug aus");
-		// Dropdown for Flight Selection
-        this.select_flightnr = new JComboBox<>(this.flight);
+		// Dropdown for flight selection
+        this.select_flightnr = new JComboBox<>(this.flights);
         this.submit_flight = new JButton("Submit");
-
+        // Components added to JPanel for flight selection
         this.select_flight.add(this.flight_label);
         this.select_flight.add(this.c1);
         this.select_flight.add(this.select_flightnr);
         this.select_flight.add(this.submit_flight);
+        // ActionLister added to submit button
+        this.submit_flight.addActionListener(this.c);
 	}
 
+
     /**
+     * Check if button submit from country is pressed
      *
+     * @param e
+     * @return
      */
-	public void initialize_countrys(){
+    public boolean isButtonSubmitCountry(ActionEvent e) {
+        if (e.getSource() == this.submit_country) return true;
+        return false;
+    }
+
+    /**
+     * Check if button submit from airport is pressed
+     *
+     * @param e
+     * @return
+     */
+    public boolean isButtonSubmitAirport(ActionEvent e) {
+        if (e.getSource() == this.submit_airport) return true;
+        return false;
+    }
+
+    /**
+     * Check if button submit from flight is pressed
+     *
+     * @param e
+     * @return
+     */
+    public boolean isButtonSubmitFlight(ActionEvent e) {
+        if (e.getSource() == this.submit_flight) return true;
+        return false;
+    }
+
+
+    /**
+     * Initialization of countrys
+     */
+	public void initialize_countrys() {
         this.countrys = this.m.getCountrys();
     }
 
     /**
-     *
-     * @param dep departure country
-     * @param ariv arival country
+     *Initialization of airports
      */
-    public void initialize_airports(String dep, String ariv){
-        this.airports = this.m.getAirports(dep,ariv);
+    public void initialize_airports() {
+        this.airports = this.m.getAirports();
     }
 
     /**
-     *
-     * @param dep departure airport
-     * @param ariv arival airport
+     *Initialization of flights
      */
-    public void initialize_flights(String dep, String ariv){
-        this.flights = this.m.getFlights(dep,ariv);
+    public void initialize_flights() {
+        this.flights = this.m.getFlights();
     }
 
+    /**
+     * Getter Method
+     *
+     * @return
+     */
+    public String get_dep_country() {
+        return (String) this.select_dep_country.getSelectedItem();
+    }
+
+    /**
+     * Getter Method
+     *
+     * @return
+     */
+    public String get_ariv_country() {
+        return (String) this.select_ariv_country.getSelectedItem();
+    }
+
+    /**
+     * Getter Method
+     *
+     * @return
+     */
+    public String get_dep_airport() {
+        return (String) this.select_dep_airport.getSelectedItem();
+    }
+
+    /**
+     * Getter Method
+     *
+     * @return
+     */
+    public String get_ariv_airport() {
+        return (String) this.select_ariv_airport.getSelectedItem();
+    }
+
+    /**
+     * Getter Method
+     *
+     * @return
+     */
+    public String getFlight() {
+        return (String) this.select_flightnr.getSelectedItem();
+    }
 
 
 }

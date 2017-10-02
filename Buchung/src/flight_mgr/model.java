@@ -1,6 +1,31 @@
 package flight_mgr;
 
 public class model {
+	public void setCountrys(String dep, String ariv) {
+
+	}
+
+	public void setAirports(String dep, String ariv) {
+
+	}
+
+	public void setFlight(String flightnr) {
+
+	}
+
+	public Object getCountrys() {
+
+	}
+
+	public Object getAirports() {
+
+	}
+
+	public Object getFlights() {
+
+	}
+
+
 	public String[] get_available_Countrys() {
 		String[] country = {"Austria", "USA", "Germany", "Netherlands", "Australia"};
 		return country;
