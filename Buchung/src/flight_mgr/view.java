@@ -1,62 +1,43 @@
 package flight_mgr;
 
-import sun.util.resources.Bundles;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Objects;
+import java.util.*;
 
 public class view extends JFrame {
     /**
      * Declaration of model and controller objects
      */
     private model m;
-	private controller c;
+    private controller c;
     /**
      * Declaration of used JPanels
      */
-	private JPanel select_country;
-	private JPanel select_airport;
-	private JPanel select_flight;
+    private JPanel content_Panel;
     /**
      * Declaration of Placeholder-container
      */
-	private Container c1;
-	private Container c2;
-	private Container c3;
-    /**
-     * Declaration of used JLabels
-     */
-	private JLabel country_label;
-	private JLabel country_dep_label;
-	private JLabel country_ariv_label;
+    private Container c1 = new Container();
+    private Container c2 = new Container();
+    private Container c3 = new Container();
 
-	private JLabel airport_label;
-	private JLabel airport_dep_label;
-	private JLabel airport_ariv_label;
-
-	private JLabel flight_label;
     /**
      * Declaration of used Dropdowns
      */
-	private JComboBox<Object> select_dep_country;
-	private JComboBox<Object> select_ariv_country;
+    private JComboBox select_dep_country;
+    private JComboBox select_ariv_country;
 
-	private JComboBox<Object> select_dep_airport;
-	private JComboBox<Object> select_ariv_airport;
+    private JComboBox select_dep_airport;
+    private JComboBox select_ariv_airport;
 
-	private JComboBox<Object> select_flightnr;
-    /**
-     * Declaration of used Database Streams
-     */
-	private Object[] countrys;
-	private Object[] airports;
-	private Object[] flights;
+    private JComboBox select_flightnr;
     /**
      * Declaration of used Submit Buttons
      */
-	private JButton submit_country;
+    private JButton submit_country;
     private JButton submit_airport;
     private JButton submit_flight;
 
@@ -66,92 +47,120 @@ public class view extends JFrame {
      * @param m model
      * @param c controller
      */
-	public view(model m, controller c) {
-		this.m = m;
-		this.c = c;
+    public view(model m, controller c) {
+        this.m = m;
+        this.c = c;
 
-		this.initialize_countrys();
+        this.countrys();
+        this.frame_config();
+    }
 
-        /**
-         * Initialisation of Placeholder-containers
-         */
-		this.c1 = new Container();
-		this.c2 = new Container();
-        this.c3 = new Container();
-
+    /**
+     * Panel for Country selection
+     */
+    public void countrys() {
         /**
          * JPanel for country selection
          */
-        this.select_country = new JPanel();
+        this.content_Panel = new JPanel();
         // GridLayout chosen for select_flight
-		this.select_country.setLayout( new GridLayout(3,3,10,0) );
-		// Labels for country selection
-		this.country_label = new JLabel("Bitte wählen Sie ihr gewünschtes Abflug- und Zielland aus.");
-        this.country_dep_label = new JLabel("Abflugland");
-        this.country_ariv_label = new JLabel("Zielland");
+        this.content_Panel.setLayout(new GridLayout(3, 3, 10, 0));
+        // Labels for country selection
+        /*
+        Declaration of used JLabels
+        */
+        JLabel country_label = new JLabel("Bitte wählen Sie ihr gewünschtes Abflug- und Zielland aus.");
+        JLabel country_dep_label = new JLabel("Abflugland");
+        JLabel country_ariv_label = new JLabel("Zielland");
         // Dropdown for country selection
-        this.select_dep_country = new JComboBox<>(this.countrys);
-        this.select_ariv_country = new JComboBox<>(this.countrys);
+        this.select_dep_country = new JComboBox(this.m.getCountrys());
+        this.select_ariv_country = new JComboBox(this.m.getCountrys());
         this.submit_country = new JButton("Submit");
         // Components added to JPanel for country selection
-        this.select_country.add(this.c1);
-        this.select_country.add(this.country_label);
-        this.select_country.add(this.c2);
-        this.select_country.add(this.country_dep_label);
-        this.select_country.add(this.country_ariv_label);
-        this.select_country.add(this.c3);
-        this.select_country.add(this.select_dep_country);
-        this.select_country.add(this.select_ariv_country);
-        this.select_country.add(this.submit_country);
+        this.content_Panel.add(this.c1);
+        this.content_Panel.add(country_label);
+        this.content_Panel.add(this.c2);
+        this.content_Panel.add(country_dep_label);
+        this.content_Panel.add(country_ariv_label);
+        this.content_Panel.add(this.c3);
+        this.content_Panel.add(this.select_dep_country);
+        this.content_Panel.add(this.select_ariv_country);
+        this.content_Panel.add(this.submit_country);
         // ActionListener added to submit button
         this.submit_country.addActionListener(this.c);
+        this.setVisible(true);
+        this.add(content_Panel);
+    }
 
+    /**
+     * Panel for Airport selection
+     */
+    public void airports() {
         /**
          * JPanel for airport selection
          */
-        this.select_airport = new JPanel();
+        this.remove(this.content_Panel);
+        this.content_Panel = new JPanel();
         // GridLayout chosen for select_flight
-        this.select_airport.setLayout( new GridLayout(3,3,10,0) );
+        this.content_Panel.setLayout(new GridLayout(3, 3, 10, 0));
         // Labels for airport selection
-		this.airport_label = new JLabel("Bitte wählen Sie ihren gewünschten Abflug- und Zielflughafen aus.");
-        this.airport_dep_label = new JLabel("Abflughafen");
-        this.airport_ariv_label = new JLabel("Zielflughafen");
+        JLabel airport_label = new JLabel("Bitte wählen Sie ihren gewünschten Abflug- und Zielflughafen aus.");
+        JLabel airport_dep_label = new JLabel("Abflughafen");
+        JLabel airport_ariv_label = new JLabel("Zielflughafen");
         // Dropdown for airport selection
-        this.select_dep_airport = new JComboBox<>(this.airports);
-        this.select_ariv_airport = new JComboBox<>(this.airports);
+        this.select_dep_airport = new JComboBox(this.m.get_dep_Airports());
+        this.select_ariv_airport = new JComboBox(this.m.get_ariv_Airports());
         this.submit_airport = new JButton("Submit");
         // Components added to JPanel for airport selection
-        this.select_airport.add(this.c1);
-        this.select_airport.add(this.airport_label);
-        this.select_airport.add(this.c2);
-        this.select_airport.add(this.airport_dep_label);
-        this.select_airport.add(this.airport_ariv_label);
-        this.select_airport.add(this.c3);
-        this.select_airport.add(this.select_dep_airport);
-        this.select_airport.add(this.select_ariv_airport);
-        this.select_airport.add(this.submit_airport);
+        this.content_Panel.add(this.c1);
+        this.content_Panel.add(airport_label);
+        this.content_Panel.add(this.c2);
+        this.content_Panel.add(airport_dep_label);
+        this.content_Panel.add(airport_ariv_label);
+        this.content_Panel.add(this.c3);
+        this.content_Panel.add(this.select_dep_airport);
+        this.content_Panel.add(this.select_ariv_airport);
+        this.content_Panel.add(this.submit_airport);
         // ActionLister added to submit button
         this.submit_airport.addActionListener(this.c);
+    }
 
+    /**
+     * Panel for flight selection
+     */
+    public void flights() {
         /**
          * JPanel for flight selection
          */
-        this.select_flight = new JPanel();
+        this.remove(this.content_Panel);
+        this.content_Panel = new JPanel();
         // GridLayout chosen for select_flight
-        this.select_flight.setLayout( new GridLayout(2,2,10,0) );
+        this.content_Panel.setLayout(new GridLayout(2, 2, 10, 0));
         // Labels for flight selection
-		this.flight_label = new JLabel("Bitte wählen Sie ihren gewünschten Flug aus");
-		// Dropdown for flight selection
-        this.select_flightnr = new JComboBox<>(this.flights);
+        JLabel flight_label = new JLabel("Bitte wählen Sie ihren gewünschten Flug aus");
+        // Dropdown for flight selection
+        this.select_flightnr = new JComboBox(this.m.getFlights());
         this.submit_flight = new JButton("Submit");
         // Components added to JPanel for flight selection
-        this.select_flight.add(this.flight_label);
-        this.select_flight.add(this.c1);
-        this.select_flight.add(this.select_flightnr);
-        this.select_flight.add(this.submit_flight);
+        this.content_Panel.add(flight_label);
+        this.content_Panel.add(this.c1);
+        this.content_Panel.add(this.select_flightnr);
+        this.content_Panel.add(this.submit_flight);
         // ActionLister added to submit button
         this.submit_flight.addActionListener(this.c);
-	}
+    }
+
+    /**
+     * Basic config for the Frame
+     */
+    public void frame_config() {
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setSize(800,250);
+        this.setResizable(false);
+        this.setLocation(d.width/2-this.getSize().width/2, d.height/2-this.getSize().height/2);
+        this.setTitle("Booking");
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
 
 
     /**
@@ -186,73 +195,4 @@ public class view extends JFrame {
         if (e.getSource() == this.submit_flight) return true;
         return false;
     }
-
-
-    /**
-     * Initialization of countrys
-     */
-	public void initialize_countrys() {
-        this.countrys = this.m.getCountrys();
-    }
-
-    /**
-     *Initialization of airports
-     */
-    public void initialize_airports() {
-        this.airports = this.m.getAirports();
-    }
-
-    /**
-     *Initialization of flights
-     */
-    public void initialize_flights() {
-        this.flights = this.m.getFlights();
-    }
-
-    /**
-     * Getter Method
-     *
-     * @return
-     */
-    public String get_dep_country() {
-        return (String) this.select_dep_country.getSelectedItem();
-    }
-
-    /**
-     * Getter Method
-     *
-     * @return
-     */
-    public String get_ariv_country() {
-        return (String) this.select_ariv_country.getSelectedItem();
-    }
-
-    /**
-     * Getter Method
-     *
-     * @return
-     */
-    public String get_dep_airport() {
-        return (String) this.select_dep_airport.getSelectedItem();
-    }
-
-    /**
-     * Getter Method
-     *
-     * @return
-     */
-    public String get_ariv_airport() {
-        return (String) this.select_ariv_airport.getSelectedItem();
-    }
-
-    /**
-     * Getter Method
-     *
-     * @return
-     */
-    public String getFlight() {
-        return (String) this.select_flightnr.getSelectedItem();
-    }
-
-
 }
