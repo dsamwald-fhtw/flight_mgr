@@ -16,6 +16,7 @@ public class model {
 	 */
 	public void setCountrys(String[] countrys) {
 		this.countrys = countrys;
+		//System.out.println(countrys[0]);
 	}
 
 	/**

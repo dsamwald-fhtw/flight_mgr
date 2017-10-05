@@ -4,14 +4,23 @@ import java.sql.*;
 
 public class DB_Connection {
     // JDBC driver name and database URL
-    static final String JDBC_DRIVER = "com.mysql.jdbc.jdbc2.optional.MysqlDataSource";
+    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost/flightdata";
 
     //  Database credentials
     private static final String USER = "root";
     private static final String PASS = "1q2w3e4r";
     //  Connection Attribute
-    private Connection conn;
+    private Connection conn = null;
+    private Statement stmt1 = null;
+    private Statement stmt2 = null;
+
+    private PreparedStatement pstmt1 = null;
+    private PreparedStatement pstmt2 = null;
+
+    private String[] countrys;
+    private String[] airports;
+    private String[] flightnr;
 
     /**
      * Constructor
@@ -20,11 +29,11 @@ public class DB_Connection {
 
         try {
             //STEP 2: Register JDBC driver
-            Class.forName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+            Class.forName("com.mysql.jdbc.Driver");
 
             //STEP 3: Open a connection
             System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            this.conn = DriverManager.getConnection(this.DB_URL, this.USER, this.PASS);
 
         } catch (SQLException e) {
             e.getStackTrace();
@@ -32,65 +41,100 @@ public class DB_Connection {
             e.getStackTrace();
             System.out.println("Cannot connect to Database");
         }
+        this.setCountrys();
     }
+
+
 
     /**
      * Reads country data from database
      * @return
      */
-    public String[] getCountrys(){
+    public void setCountrys(){
         try {
-            Statement stmt = this.conn.createStatement();
-            String sql;
-            sql = "SELECT name FROM countries";
-            ResultSet rs = stmt.executeQuery(sql);
+            this.stmt1 = conn.createStatement();
+            this.stmt2 = conn.createStatement();
+            String sql1;
+            String sql2;
+            sql1 = "SELECT name FROM countries";
+            sql2 = "SELECT COUNT(name) AS arraysize FROM countries";
+            ResultSet rs1 = this.stmt1.executeQuery(sql1);
+            ResultSet rs2 = this.stmt2.executeQuery(sql2);
+            rs2.first();
+            int arraysize = rs2.getInt("arraysize");
+            this.countrys = new String[arraysize];
             int i = 0;
-            String[] countrys = {""};
-            while (rs.next()) {
-                countrys[i] = rs.getString("name");
-                System.out.println("Name: " +countrys);
+            rs1.first();
+            while(rs1.next()){
+                this.countrys[i] = rs1.getString("name");
                 i++;
             }
-            return countrys;
-        }catch (Exception e){
-            e.getStackTrace();
-        }
-        return null;
 
+            rs1.close();
+            rs2.close();
+            this.stmt1.close();
+            this.stmt2.close();
+        }catch (Exception e){
+            e.printStackTrace(System.out);
+        }
     }
 
     /**
      * Reads airport data from database
      * @return
      */
-    public String[] getAirports(String country) {
+    public void setAirports(String country) {
         try {
-            Statement stmt = this.conn.createStatement();
-            String sql;
-            sql = "SELECT a.name FROM airports a INNER JOIN countries c ON a.country = c.code where c.name = ?";
-            PreparedStatement stmt_airport = conn.prepareStatement(sql);
-            stmt_airport.setString(1,country);
-            ResultSet rs = stmt.executeQuery(sql);
+            String sql1 = "SELECT a.name AS name FROM airports a INNER JOIN countries c ON a.country = c.code WHERE c.name = ?";
+            this.pstmt1 = conn.prepareStatement(sql1);
+            this.pstmt1.setString(1,country);
+
+            String sql2 = "SELECT COUNT(a.name) AS arraysize FROM airports a INNER JOIN countries c ON a.country = c.code WHERE c.name = ?";
+            this.pstmt2 = conn.prepareStatement(sql2);
+            this.pstmt2.setString(1,country);
+
+            ResultSet rs1 = this.pstmt1.executeQuery();
+            ResultSet rs2 = this.pstmt2.executeQuery();
+
+            rs2.first();
+            int arraysize = rs2.getInt("arraysize");
+            this.airports = new String[arraysize];
             int i = 0;
-            String[] airports = {""};
-            while (rs.next()) {
-                airports[i] = rs.getString("name");
-                System.out.println("Airport: " +airports);
+            rs1.first();
+            while(rs1.next()){
+                this.airports[i] = rs1.getString("name");
                 i++;
             }
-            return airports;
+
+            rs1.close();
+            rs2.close();
+            this.pstmt1.close();
+            this.pstmt2.close();
         }catch (Exception e){
-            e.getStackTrace();
+            e.printStackTrace(System.out);
         }
-        return null;
     }
 
     /**
      * Reads flight data from database
      * @return
      */
-    public String[] getFlights(String dep, String ariv) {
+    public void setFlights(String dep, String ariv) {
+
+    }
+
+    public String[] getCountrys(){
+        return this.countrys;
+    }
+
+    public String[] getAirports(String country){
+        this.setAirports(country);
+        return this.airports;
+    }
+
+    public String[] getFlights(String dep, String ariv){
 
         return null;
     }
+
 }

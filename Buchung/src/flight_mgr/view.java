@@ -195,4 +195,26 @@ public class view extends JFrame {
         if (e.getSource() == this.submit_flight) return true;
         return false;
     }
+
+    public String get_dep_Country(){
+        System.out.println((String) this.select_dep_country.getSelectedItem());
+        return (String) this.select_dep_country.getSelectedItem();
+    }
+
+    public String get_ariv_Country(){
+        System.out.println((String) this.select_ariv_country.getSelectedItem());
+        return (String) this.select_ariv_country.getSelectedItem();
+    }
+
+    public String get_dep_Airport(){
+        return (String) this.select_dep_airport.getSelectedItem();
+    }
+
+    public String get_ariv_Airport(){
+        return (String) this.select_ariv_airport.getSelectedItem();
+    }
+
+    public String get_Flight(){
+        return (String) this.select_flightnr.getSelectedItem();
+    }
 }

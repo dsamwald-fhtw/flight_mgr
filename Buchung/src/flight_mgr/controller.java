@@ -15,9 +15,9 @@ public class controller implements ActionListener {
 		//Creates DB_Connection, model and view class
 		this.db = new DB_Connection();
 		this.m = new model();
-		this.v = new view(this.m, this);
-		//sets countries for the first time
 		this.setCountries();
+		this.v = new view(this.m, this);
+
 	}
 
 	/**
@@ -26,7 +26,8 @@ public class controller implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (this.v.isButtonSubmitCountry(e)){
-
+			this.setAirports(this.v.get_dep_Country(),this.v.get_ariv_Country());
+			this.v.airports();
 		}
 		if (this.v.isButtonSubmitAirport(e)){
 
@@ -60,6 +61,6 @@ public class controller implements ActionListener {
 	 * @param ariv
 	 */
 	private void setFlight(String dep, String ariv){
-		this.m.setFlights(this.db.getFlights(dep, ariv));
+
 	}
 }
