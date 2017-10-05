@@ -1,5 +1,8 @@
 package flight_mgr;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class model {
 	//Country String Array
 	private String[] countrys = {"","",""};
@@ -7,7 +10,7 @@ public class model {
 	private String[] dep_airports = {"","",""};
 	private String[] ariv_airports = {"","",""};
 	//Flight String Array
-	private String[] flightnrs = {"","",""};
+	private String[] flights;
 
 	/**
 	 * gets countrys from DB_Connection over controller
@@ -33,10 +36,10 @@ public class model {
 	/**
 	 * gets flights from DB_Connection over controller
 	 *
-	 * @param flightnrs
+	 * @param flights
 	 */
-	public void setFlights(String[] flightnrs) {
-		this.flightnrs = flightnrs;
+	public void setFlights(String[] flights) {
+		this.flights = flights;
 	}
 
 	/**
@@ -72,6 +75,6 @@ public class model {
 	 * @return
 	 */
 	public String[] getFlights() {
-		return this.flightnrs;
+		return this.flights;
 	}
 }

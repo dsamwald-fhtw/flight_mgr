@@ -1,7 +1,5 @@
 package flight_mgr;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -88,8 +86,8 @@ public class view extends JFrame {
         this.content_Panel.add(this.submit_country);
         // ActionListener added to submit button
         this.submit_country.addActionListener(this.c);
-        this.setVisible(true);
         this.add(content_Panel);
+        this.setVisible(true);
     }
 
     /**
@@ -123,6 +121,8 @@ public class view extends JFrame {
         this.content_Panel.add(this.submit_airport);
         // ActionLister added to submit button
         this.submit_airport.addActionListener(this.c);
+        this.add(content_Panel);
+        this.setVisible(true);
     }
 
     /**
@@ -148,6 +148,8 @@ public class view extends JFrame {
         this.content_Panel.add(this.submit_flight);
         // ActionLister added to submit button
         this.submit_flight.addActionListener(this.c);
+        this.add(content_Panel);
+        this.setVisible(true);
     }
 
     /**

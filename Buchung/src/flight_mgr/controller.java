@@ -30,7 +30,8 @@ public class controller implements ActionListener {
 			this.v.airports();
 		}
 		if (this.v.isButtonSubmitAirport(e)){
-
+			this.setFlight(this.v.get_dep_Airport(),this.v.get_ariv_Airport());
+			this.v.flights();
 		}
 		if (this.v.isButtonSubmitFlight(e)){
 
@@ -61,6 +62,6 @@ public class controller implements ActionListener {
 	 * @param ariv
 	 */
 	private void setFlight(String dep, String ariv){
-
+		this.m.setFlights(this.db.get_Flights(dep, ariv));
 	}
 }
