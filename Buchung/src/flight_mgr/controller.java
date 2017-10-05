@@ -1,5 +1,6 @@
 package flight_mgr;
 
+import javax.swing.*;
 import java.awt.event.*;
 
 public class controller implements ActionListener {
@@ -34,7 +35,13 @@ public class controller implements ActionListener {
 			this.v.flights();
 		}
 		if (this.v.isButtonSubmitFlight(e)){
-			this.v.passenger();
+			if(this.m.getFlights().length == 0){
+				this.v.dispose();
+				JOptionPane.showMessageDialog(null,"Es wurde kein Flug zwischen den gewählten Destinationen gefunden.\n"+
+						"Bitte versuchen sie es noch einmal!");
+			}else {
+				this.v.passenger();
+			}
 		}
 		if (this.v.isButtonSavePassenger(e)){
 			this.db.addPassenger(this.v.get_vname(), this.v.get_nname(), this.v.get_Flight(), this.v.get_rownr(), this.v.get_seatpos());

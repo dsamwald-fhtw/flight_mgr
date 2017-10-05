@@ -1,16 +1,13 @@
 package flight_mgr;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class model {
 	//Country String Array
-	private String[] countrys = {"","",""};
+	private String[] countrys = {""};
 	//Airport String Arrays
-	private String[] dep_airports = {"","",""};
-	private String[] ariv_airports = {"","",""};
+	private String[] dep_airports = {""};
+	private String[] ariv_airports = {""};
 	//Flight String Array
-	private String[] flights;
+	private String[] flights = {""};
 
 	/**
 	 * gets countrys from DB_Connection over controller
@@ -77,6 +74,10 @@ public class model {
 		return this.flights;
 	}
 
+	/**
+	 * Returns seatpositions from JComboBoxes
+	 * @return
+	 */
 	public String[] getseatpositions() {
 		String[] seatpositions = {"A","B","C","D"};
 		return seatpositions;

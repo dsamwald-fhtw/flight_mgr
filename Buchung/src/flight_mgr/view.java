@@ -280,42 +280,75 @@ public class view extends JFrame {
         return false;
     }
 
+    /**
+     * Returns departure Country
+     * @return
+     */
     public String get_dep_Country(){
         System.out.println((String) this.select_dep_country.getSelectedItem());
         return (String) this.select_dep_country.getSelectedItem();
     }
-
+    /**
+     * Returns arival Country
+     * @return
+     */
     public String get_ariv_Country(){
         System.out.println((String) this.select_ariv_country.getSelectedItem());
         return (String) this.select_ariv_country.getSelectedItem();
     }
-
+    /**
+     * Returns departure Airport
+     * @return
+     */
     public String get_dep_Airport(){
         System.out.println((String) this.select_dep_airport.getSelectedItem());
         return (String) this.select_dep_airport.getSelectedItem();
     }
-
+    /**
+     * Returns arival Airport
+     * @return
+     */
     public String get_ariv_Airport(){
         System.out.println((String) this.select_ariv_airport.getSelectedItem());
         return (String) this.select_ariv_airport.getSelectedItem();
     }
 
+    /**
+     * Returns Vorname
+     * @return
+     */
     public String get_vname() {
         return this.text_vname.getText();
     }
 
+    /**
+     * Returns Nachname
+     * @return
+     */
     public String get_nname() {
         return text_nname.getText();
     }
 
+    /**
+     * Returns row number
+     * @return
+     */
     public int get_rownr() {
         return (int) rownr.getValue();
     }
 
+    /**
+     * returns seatposition
+     * @return
+     */
     public String get_seatpos() {
         return (String) select_seatpos.getSelectedItem();
     }
 
+    /**
+     * Returns "Flightnumber"
+     * @return
+     */
     public int get_Flight(){
         return this.select_flightnr.getSelectedIndex();
     }
