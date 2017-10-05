@@ -15,12 +15,23 @@ public class view extends JFrame {
      * Declaration of used JPanels
      */
     private JPanel content_Panel;
+
     /**
      * Declaration of Placeholder-container
      */
     private Container c1 = new Container();
     private Container c2 = new Container();
     private Container c3 = new Container();
+
+    /**
+     * Declaration of Textfields
+     */
+    private JTextField text_vname;
+    private JTextField text_nname;
+    /**
+     * Declaration of JSpinner
+     */
+    private JSpinner rownr;
 
     /**
      * Declaration of used Dropdowns
@@ -32,12 +43,17 @@ public class view extends JFrame {
     private JComboBox select_ariv_airport;
 
     private JComboBox select_flightnr;
+
+    private JComboBox select_seatpos;
     /**
      * Declaration of used Submit Buttons
      */
     private JButton submit_country;
     private JButton submit_airport;
     private JButton submit_flight;
+    private JButton save_passenger;
+    private JButton add_passenger;
+    private JButton exit_passenger;
 
     /**
      * Constructor of view
@@ -152,6 +168,39 @@ public class view extends JFrame {
         this.setVisible(true);
     }
 
+    public void passenger(){
+        this.remove(this.content_Panel);
+        this.content_Panel = new JPanel();
+        this.content_Panel.setLayout( new FlowLayout() );
+        JLabel vname_label = new JLabel("Vorname:");
+        JLabel nname_label = new JLabel("Nachname:");
+        JLabel rownr_label = new JLabel("Reihe:");
+        JLabel seatpos_label = new JLabel("Sitzplatz:");
+        this.text_vname = new JTextField(20);
+        this.text_nname = new JTextField(20);
+        this.rownr = new JSpinner();
+        this.select_seatpos = new JComboBox(this.m.getseatpositions());
+        this.save_passenger = new JButton("Save");
+        this.add_passenger = new JButton("Add");
+        this.exit_passenger = new JButton("Exit");
+        this.content_Panel.add(vname_label);
+        this.content_Panel.add(text_vname);
+        this.content_Panel.add(nname_label);
+        this.content_Panel.add(text_nname);
+        this.content_Panel.add(rownr_label);
+        this.content_Panel.add(rownr);
+        this.content_Panel.add(seatpos_label);
+        this.content_Panel.add(select_seatpos);
+        this.content_Panel.add(save_passenger);
+        this.content_Panel.add(add_passenger);
+        this.content_Panel.add(exit_passenger);
+        this.save_passenger.addActionListener(this.c);
+        this.add_passenger.addActionListener(this.c);
+        this.exit_passenger.addActionListener(this.c);
+        this.add(content_Panel);
+        this.setVisible(true);
+    }
+
     /**
      * Basic config for the Frame
      */
@@ -198,6 +247,39 @@ public class view extends JFrame {
         return false;
     }
 
+    /**
+     * Check if button add from passenger is pressed
+     *
+     * @param e
+     * @return
+     */
+    public boolean isButtonSavePassenger(ActionEvent e) {
+        if (e.getSource() == this.save_passenger) return true;
+        return false;
+    }
+
+    /**
+     * Check if button add from passenger is pressed
+     *
+     * @param e
+     * @return
+     */
+    public boolean isButtonAddPassenger(ActionEvent e) {
+        if (e.getSource() == this.add_passenger) return true;
+        return false;
+    }
+
+    /**
+     * Check if button add from passenger is pressed
+     *
+     * @param e
+     * @return
+     */
+    public boolean isButtonExitPassenger(ActionEvent e) {
+        if (e.getSource() == this.exit_passenger) return true;
+        return false;
+    }
+
     public String get_dep_Country(){
         System.out.println((String) this.select_dep_country.getSelectedItem());
         return (String) this.select_dep_country.getSelectedItem();
@@ -209,14 +291,32 @@ public class view extends JFrame {
     }
 
     public String get_dep_Airport(){
+        System.out.println((String) this.select_dep_airport.getSelectedItem());
         return (String) this.select_dep_airport.getSelectedItem();
     }
 
     public String get_ariv_Airport(){
+        System.out.println((String) this.select_ariv_airport.getSelectedItem());
         return (String) this.select_ariv_airport.getSelectedItem();
     }
 
-    public String get_Flight(){
-        return (String) this.select_flightnr.getSelectedItem();
+    public String get_vname() {
+        return this.text_vname.getText();
+    }
+
+    public String get_nname() {
+        return text_nname.getText();
+    }
+
+    public int get_rownr() {
+        return (int) rownr.getValue();
+    }
+
+    public String get_seatpos() {
+        return (String) select_seatpos.getSelectedItem();
+    }
+
+    public int get_Flight(){
+        return this.select_flightnr.getSelectedIndex();
     }
 }

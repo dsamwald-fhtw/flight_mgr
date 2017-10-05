@@ -19,7 +19,6 @@ public class model {
 	 */
 	public void setCountrys(String[] countrys) {
 		this.countrys = countrys;
-		//System.out.println(countrys[0]);
 	}
 
 	/**
@@ -76,5 +75,10 @@ public class model {
 	 */
 	public String[] getFlights() {
 		return this.flights;
+	}
+
+	public String[] getseatpositions() {
+		String[] seatpositions = {"A","B","C","D"};
+		return seatpositions;
 	}
 }

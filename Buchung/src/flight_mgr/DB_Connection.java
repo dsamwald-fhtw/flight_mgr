@@ -19,9 +19,6 @@ public class DB_Connection {
     private PreparedStatement pstmt1 = null;
     private PreparedStatement pstmt2 = null;
 
-    private PreparedStatement pstmt3 = null;
-    private PreparedStatement pstmt4 = null;
-
     private String[] countrys;
     private String[] airports;
     private String[] airlines;
@@ -69,7 +66,7 @@ public class DB_Connection {
             int arraysize = rs2.getInt("arraysize");
             this.countrys = new String[arraysize];
             int i = 0;
-            rs1.first();
+
             while(rs1.next()){
                 this.countrys[i] = rs1.getString("name");
                 i++;
@@ -105,7 +102,7 @@ public class DB_Connection {
             int arraysize = rs2.getInt("arraysize");
             this.airports = new String[arraysize];
             int i = 0;
-            rs1.first();
+
             while(rs1.next()){
                 this.airports[i] = rs1.getString("name");
                 i++;
@@ -127,35 +124,64 @@ public class DB_Connection {
     public void setFlights(String dep, String ariv) {
         try {
             String sql1 = "select f.airline AS airline, f.flightnr AS flightnr from flights f INNER JOIN airports a1 ON f.departure_airport = a1.airportcode INNER JOIN airports a2 ON f.destination_airport = a2.airportcode WHERE a1.name = ? AND a2.name = ?";
-            this.pstmt3 = conn.prepareStatement(sql1);
-            this.pstmt3.setString(1,dep);
-            this.pstmt3.setString(2,ariv);
+            this.pstmt1 = conn.prepareStatement(sql1);
+            this.pstmt1.setString(1,dep);
+            this.pstmt1.setString(2,ariv);
 
             String sql2 = "select COUNT(f.airline) AS arraysize from flights f INNER JOIN airports a1 ON f.departure_airport = a1.airportcode INNER JOIN airports a2 ON f.destination_airport = a2.airportcode WHERE a1.name = ? AND a2.name = ?";
-            this.pstmt4 = conn.prepareStatement(sql2);
-            this.pstmt4.setString(1,dep);
-            this.pstmt4.setString(2,ariv);
+            this.pstmt2 = conn.prepareStatement(sql2);
+            this.pstmt2.setString(1,dep);
+            this.pstmt2.setString(2,ariv);
 
-            ResultSet rs1 = this.pstmt3.executeQuery();
-            ResultSet rs2 = this.pstmt4.executeQuery();
+            ResultSet rs1 = this.pstmt1.executeQuery();
+            ResultSet rs2 = this.pstmt2.executeQuery();
 
             rs2.first();
             int arraysize = rs2.getInt("arraysize");
             this.airlines = new String[arraysize];
             this.flightnrs = new String[arraysize];
+
             int i = 0;
-            rs1.first();
             while (rs1.next()){
                 this.airlines[i] = rs1.getString("airline");
+                System.out.println(this.airlines[i]);
                 this.flightnrs[i] = rs1.getString("flightnr");
+                System.out.println(this.flightnrs[i]);
                 i++;
             }
 
             rs1.close();
             rs2.close();
-            this.pstmt3.close();
-            this.pstmt4.close();
+            this.pstmt1.close();
+            this.pstmt2.close();
         }catch (Exception e){
+            e.printStackTrace(System.out);
+        }
+    }
+
+    /**
+     * Creates a new passenger in DB
+     * @param firstname
+     * @param lastname
+     * @param flightindex
+     * @param rownr
+     * @param seatposition
+     */
+    public void addPassenger(String firstname, String lastname, int flightindex, int rownr, String seatposition){
+        try {
+            String sql = "INSERT INTO passengers(firstname, lastname, airline, flightnr, rownr, seatposition) VALUES (?, ?, ?, ?, ?, ?)";
+            this.pstmt1 = conn.prepareStatement(sql);
+            this.pstmt1.setString(1,firstname);
+            this.pstmt1.setString(2,lastname);
+            this.pstmt1.setString(3,this.airlines[flightindex]);
+            this.pstmt1.setString(4,this.flightnrs[flightindex]);
+            this.pstmt1.setInt(5,rownr);
+            this.pstmt1.setString(6,seatposition);
+
+            pstmt1.executeUpdate();
+
+            pstmt1.close();
+        }catch (Exception e) {
             e.printStackTrace(System.out);
         }
     }

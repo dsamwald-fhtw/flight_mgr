@@ -34,7 +34,17 @@ public class controller implements ActionListener {
 			this.v.flights();
 		}
 		if (this.v.isButtonSubmitFlight(e)){
-
+			this.v.passenger();
+		}
+		if (this.v.isButtonSavePassenger(e)){
+			this.db.addPassenger(this.v.get_vname(), this.v.get_nname(), this.v.get_Flight(), this.v.get_rownr(), this.v.get_seatpos());
+			this.v.dispose();
+		}
+		if (this.v.isButtonAddPassenger(e)){
+			this.db.addPassenger(this.v.get_vname(), this.v.get_nname(), this.v.get_Flight(), this.v.get_rownr(), this.v.get_seatpos());
+		}
+		if (this.v.isButtonExitPassenger(e)){
+			this.v.dispose();
 		}
 	}
 
