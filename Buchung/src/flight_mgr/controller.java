@@ -14,11 +14,8 @@ public class controller implements ActionListener {
 	 */
 	public controller() {
 		//Creates DB_Connection, model and view class
-		this.db = new DB_Connection();
 		this.m = new model();
-		this.setCountries();
 		this.v = new view(this.m, this);
-
 	}
 
 	/**
@@ -26,6 +23,11 @@ public class controller implements ActionListener {
 	 * @param e
 	 */
 	public void actionPerformed(ActionEvent e) {
+		if (this.v.isButtonDBMSLogin(e)){
+			this.db = new DB_Connection(this.v.get_DBMS(), this.v.get_User(), this.v.get_Pass(), this.v.get_Address());
+			this.setCountries();
+			this.v.countrys();
+		}
 		if (this.v.isButtonSubmitCountry(e)){
 			this.setAirports(this.v.get_dep_Country(),this.v.get_ariv_Country());
 			this.v.airports();

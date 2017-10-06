@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class DB_Connection {
     // JDBC driver name and database URL
-    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost/flightdata";
+    private String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    private String DB_URL = "jdbc:mysql://localhost/flightdata";
 
     //  Database credentials
-    private static final String USER = "root";
-    private static final String PASS = "1q2w3e4r";
+    private String USER = "root";
+    private String PASS = "1q2w3e4r";
     //  Connection Attribute
     private Connection conn = null;
     private Statement stmt1 = null;
@@ -27,11 +27,20 @@ public class DB_Connection {
     /**
      * Constructor
      */
-    public DB_Connection() {
+    public DB_Connection(String DBMS, String user, String pass, String address) {
+
+        this.JDBC_DRIVER = DBMS;
+        this.USER = user;
+        this.PASS = pass;
+        if(this.JDBC_DRIVER == "com.mysql.jdbc.Driver"){
+            this.DB_URL = "jdbc:mysql://"+address+"/flightdata";
+        }else{
+            this.DB_URL = "jdbc:postgres://"+address+"/flightdata";
+        }
 
         try {
             //STEP 2: Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(JDBC_DRIVER);
 
             //STEP 3: Open a connection
             System.out.println("Connecting to database...");
@@ -69,6 +78,7 @@ public class DB_Connection {
 
             while(rs1.next()){
                 this.countrys[i] = rs1.getString("name");
+                System.out.println(countrys[i]);
                 i++;
             }
 

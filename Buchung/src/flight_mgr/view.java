@@ -3,7 +3,6 @@ package flight_mgr;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 
 public class view extends JFrame {
     /**
@@ -22,12 +21,24 @@ public class view extends JFrame {
     private Container c1 = new Container();
     private Container c2 = new Container();
     private Container c3 = new Container();
-
+    /**
+     * Declaration of JRadiobuttons
+     */
+    private JRadioButton MySQL;
+    private JRadioButton Postgres;
+    /**
+     * Declaration of Buttongroups
+     */
+    private ButtonGroup DBMS_buttons;
     /**
      * Declaration of Textfields
      */
     private JTextField text_vname;
     private JTextField text_nname;
+
+    private JTextField text_username;
+    private JPasswordField text_password;
+    private JTextField text_address;
     /**
      * Declaration of JSpinner
      */
@@ -51,6 +62,7 @@ public class view extends JFrame {
     private JButton submit_country;
     private JButton submit_airport;
     private JButton submit_flight;
+    private JButton submit_db_credentials;
     private JButton save_passenger;
     private JButton add_passenger;
     private JButton exit_passenger;
@@ -65,8 +77,40 @@ public class view extends JFrame {
         this.m = m;
         this.c = c;
 
-        this.countrys();
+        this.db_credentials();
         this.frame_config();
+    }
+
+    public void db_credentials(){
+        this.content_Panel = new JPanel();
+        this.content_Panel.setLayout(new FlowLayout());
+        JLabel DBMS = new JLabel("DBMS:");
+        JLabel username = new JLabel("Username:");
+        JLabel password = new JLabel("Password:");
+        JLabel address = new JLabel("Server Address:");
+        this.DBMS_buttons = new ButtonGroup();
+        this.MySQL = new JRadioButton("MySQL");
+        this.DBMS_buttons.add(this.MySQL);
+        this.Postgres = new JRadioButton("Postgres");
+        this.DBMS_buttons.add(this.Postgres);
+        this.text_username = new JTextField(20);
+        this.text_password = new JPasswordField(20);
+        this.text_address = new JTextField(20);
+        this.submit_db_credentials = new JButton("Login");
+
+        this.content_Panel.add(DBMS);
+        this.content_Panel.add(this.MySQL);
+        this.content_Panel.add(this.Postgres);
+        this.content_Panel.add(username);
+        this.content_Panel.add(this.text_username);
+        this.content_Panel.add(password);
+        this.content_Panel.add(this.text_password);
+        this.content_Panel.add(address);
+        this.content_Panel.add(this.text_address);
+        this.content_Panel.add(this.submit_db_credentials);
+        this.submit_db_credentials.addActionListener(this.c);
+        this.add(this.content_Panel);
+        this.setVisible(true);
     }
 
     /**
@@ -76,6 +120,7 @@ public class view extends JFrame {
         /**
          * JPanel for country selection
          */
+        this.remove(content_Panel);
         this.content_Panel = new JPanel();
         // GridLayout chosen for select_flight
         this.content_Panel.setLayout(new GridLayout(3, 3, 10, 0));
@@ -280,6 +325,11 @@ public class view extends JFrame {
         return false;
     }
 
+    public boolean isButtonDBMSLogin(ActionEvent e) {
+        if (e.getSource() == this.submit_db_credentials) return true;
+        return false;
+    }
+
     /**
      * Returns departure Country
      * @return
@@ -351,5 +401,30 @@ public class view extends JFrame {
      */
     public int get_Flight(){
         return this.select_flightnr.getSelectedIndex();
+    }
+
+    public String get_DBMS(){
+        if(this.MySQL.isSelected()){
+            return "com.mysql.jdbc.Driver";
+        }else{
+            if(this.Postgres.isSelected()) {
+                return "org.postgresql.ds.PGSimpleDataSource";
+            }else{
+                System.out.println("Connection Failed!");
+                return null;
+            }
+        }
+    }
+
+    public String get_User(){
+        return this.text_username.getText();
+    }
+
+    public String get_Pass(){
+        return this.text_password.getText();
+    }
+
+    public String get_Address(){
+        return this.text_address.getText();
     }
 }
