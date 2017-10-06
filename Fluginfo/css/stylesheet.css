@@ -49,12 +49,12 @@ h3 {
     line-height: 160%;
 }
 
-.input-field input[type=date]:focus,
-.input-field input[type=text]:focus,
-.input-field input[type=number]:focus,
-.input-field input[type=email]:focus,
-.input-field input[type=password]:focus {
-  color: #000000;
+.input-field input[type=date]:focus + label,
+.input-field input[type=text]:focus + label,
+.input-field input[type=number]:focus + label,
+.input-field input[type=email]:focus + label,
+.input-field input[type=password]:focus + label {
+  color: #464496;
 }
 
 .input-field input[type=date]:focus,
@@ -68,9 +68,8 @@ h3 {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    margin: 0;
 }
 .finish_head_bg {
     background: #464496;
@@ -186,4 +185,38 @@ input::-webkit-inner-spin-button {
 }
 .plane_form_list {
     padding: 22px 0px !important;
+}
+.book_head_bg {
+    background: #464496;
+    height: 226px;
+}
+.book_page {
+    margin: -131px auto 90px;
+    max-width: 404px;
+}
+.book_head_wrap {
+    height: 75px;
+}
+.book_form_wrap {
+    background: #fff;
+    padding: 44px 65px;
+    -webkit-box-shadow: 0 1px 1px rgba(97,127,152,.2), 1px 0 0 rgba(97,127,152,.1), -1px 0 0 rgba(97,127,152,.1);
+    -moz-box-shadow: 0 1px 1px rgba(97,127,152,.2),1px 0 0 rgba(97,127,152,.1),-1px 0 0 rgba(97,127,152,.1);
+    box-shadow: 0 1px 1px rgba(97,127,152,.2), 1px 0 0 rgba(97,127,152,.1), -1px 0 0 rgba(97,127,152,.1);
+    border-radius: 2px;
+    border: 0;
+    margin: 0;
+    max-width: none;
+}
+.book_form_head {
+    color: #222;
+    margin: 0 0 20px;
+    font-size: 35px;
+    font-weight: 700;
+}
+.book_form_lead {
+    color: #999;
+    margin: 15px 0 30px;
+    font-size: 13px;
+    line-height: 160%;
 }

@@ -17,6 +17,13 @@
       require_once("../php/script.php");
       if(isset($_GET['airline']) && isset($_GET['flight'])) {
 
+        if(isset($_GET['success'])) {
+          echo "<script type='text/javascript'>Materialize.toast('Seat successfully booked by you!', 10000);</script>";
+        }
+        if(isset($_GET['error'])) {
+          echo "<script type='text/javascript'>Materialize.toast('Seat is allready booked by another Person!', 10000);</script>";
+        }
+
         $text1 = $_GET['airline'];
         $text2 = $_GET['flight'];
 
@@ -55,8 +62,8 @@
         </div>
       </div>
       <div class="plane_form_wrap">
-        <h3 class="finish_form_headsm center-align">Booking Seat of Flight: <?php echo($airline['id']."-".$flight['flightnr']); ?></h3>
-        <div class="finish_form_info">
+        <h3 class="plane_form_headsm center-align">Booking Seat for Flight: <?php echo($airline['id']."-".$flight['flightnr']); ?></h3>
+        <div class="plane_form_info">
           <table>
            <tbody>
              <?php
@@ -71,7 +78,7 @@
                       echo("</td>");
                     } else {
                       echo("<td class='right-align'>");
-                      echo("<a href='' style='background-color: #52509e !important; color: white; width: 100%' class='btn btn-large btn-flat waves-effect waves-light' type='submit' name='action'>".$i."".getRowLetter($j)."</a>");
+                      echo("<a href='../book/?airline=".$text1."&flight=".$text2."&row=".$i."&seat=".getRowLetter($j)."' style='background-color: #52509e !important; color: white; width: 100%' class='btn btn-large btn-flat waves-effect waves-light' type='submit' name='action'>".$i."".getRowLetter($j)."</a>");
                       echo("</td>");
                     }
                   }  else {
@@ -81,7 +88,7 @@
                       echo("</td>");
                     } else {
                       echo("<td class='left-align'>");
-                      echo("<a href='' style='background-color: #52509e !important; color: white; width: 100%' class='btn btn-large btn-flat waves-effect waves-light' type='submit' name='action'>".$i."".getRowLetter($j)."</a>");
+                      echo("<a href='../book/?airline=".$text1."&flight=".$text2."&row=".$i."&seat=".getRowLetter($j)."' style='background-color: #52509e !important; color: white; width: 100%' class='btn btn-large btn-flat waves-effect waves-light' type='submit' name='action'>".$i."".getRowLetter($j)."</a>");
                       echo("</td>");
                     }
                   }
